@@ -9,7 +9,7 @@ class SettingFactory
 
 		switch ($type) {
             case 'SCSサーバ作業':
-		    	return new CreateForder();
+		    	return new CreateFolder();
 		    	break;
 		    case 'マスタ設定':
 		        return new SettingSite();

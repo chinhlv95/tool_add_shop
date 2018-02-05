@@ -10,9 +10,9 @@ class CreateForder implements Setting
 	}
 
 	public function executeSetting($corporation = null, $worksheet) {
-		$config 	  		= include('./config/config.php');
-		$startRow 			= $config['create_forder_sheet']['start_row'];
-		$startCol 			= $config['create_forder_sheet']['start_col'];
+
+		$startRow 			= 4;
+		$startCol 			= "G";
 		$highestRow         = $worksheet->getHighestRow(); // e.g. 10
 	    $configColumnIndex  = PHPExcel_Cell::columnIndexFromString($startCol);
 

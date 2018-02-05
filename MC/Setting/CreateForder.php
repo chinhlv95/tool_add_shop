@@ -18,9 +18,10 @@ class CreateForder implements Setting
 
 	    $log = '';
 	    for ($row = $startRow; $row <= $highestRow; $row ++) {
-	        $cell = $worksheet->getCellByColumnAndRow($configColumnIndex - 1, $row);
-	        $val = $cell->getValue();
-	        if ($val) {
+	        $cell 		= $worksheet->getCellByColumnAndRow($configColumnIndex - 1, $row);
+	        $colorCell 	=  $cell->getStyle()->getFill()->getStartColor()->getRGB();
+	        $val 		= $cell->getValue();
+	        if ($val && $colorCell != 'FFFFFF' && $colorCell != '000000') {
 	        	shell_exec($val);
 	        	$log .= date("Y-m-d h:i:s") . '--> Execute command: ' . $val . "\r\n";
 	        }

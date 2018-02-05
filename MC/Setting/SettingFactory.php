@@ -1,6 +1,6 @@
 <?php
 
-require_once './MC/Setting/CreateForder.php';
+require_once './MC/Setting/CreateFolder.php';
 require_once './MC/Setting/SettingSite.php';
 
 class SettingFactory

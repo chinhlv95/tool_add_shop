@@ -1,1 +1,2 @@
-logs/*.{txt,php}
+logs/*.txt
+logs/*.php

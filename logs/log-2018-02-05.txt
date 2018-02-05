@@ -1,4 +1,0 @@
-2018-02-05 08:38:48--> Execute command: mkdir -p /export/ds1file01/public/scs/hulft/cmper/zozo/{receive,result,send,sent}
-2018-02-05 08:38:48--> Execute command: chmod -R 0777 /export/ds1file01/public/scs/hulft/cmper/zozo
-2018-02-05 08:38:48--> Execute command: cd /opt/scs
-2018-02-05 08:38:48--> Execute command: ln -s /opt/scs/dh_stockcontrol/script/zozo/hulft hulft_zozo

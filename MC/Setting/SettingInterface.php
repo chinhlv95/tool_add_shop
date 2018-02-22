@@ -1,6 +1,6 @@
 <?php
 
-interface Setting
+interface SettingInterface
 {
 	public function executeSetting($corporation, $worksheet);
 }

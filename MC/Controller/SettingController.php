@@ -3,20 +3,18 @@
 require_once './PHPExcel/PHPExcel/IOFactory.php';
 require_once './MC/Setting/SettingFactory.php';
 
-class ControllerSetting
+class SettingController
 {
 	public function __construct() {
-
+		$this->settingType = new SettingFactory();
 	}
 
 	public function setShop($corporation, $target_path) {
 
-		$objPHPExcel = PHPExcel_IOFactory::load($target_path);
-
+		$objPHPExcel 	= PHPExcel_IOFactory::load($target_path);
 		foreach ($objPHPExcel->getWorksheetIterator() as $worksheet) {
 			$worksheetTitle = $worksheet->getTitle();
-			$setting 		= new SettingFactory();
-			$objSetting		= $setting->getSettingType($worksheetTitle);
+			$objSetting		= $this->settingType->getSettingType($worksheetTitle);
 			if(!empty($objSetting)) {
 				$objSetting->executeSetting($corporation, $worksheet);
 			}

@@ -1,9 +1,9 @@
 <?php
 
 require_once './PHPExcel/PHPExcel/IOFactory.php';
-require_once './MC/Setting/Setting.php';
+require_once './MC/Setting/SettingInterface.php';
 
-class CreateFolder implements Setting
+class CreateFolder implements SettingInterface
 {
 	public function __construct() {
 
@@ -11,13 +11,13 @@ class CreateFolder implements Setting
 
 	public function executeSetting($corporation = null, $worksheet) {
 
-		$startRow 			= 4;
-		$startCol 			= "G";
+		$lowestRow 			= 4;
+		$configCol 			= "G";
 		$highestRow         = $worksheet->getHighestRow(); // e.g. 10
-	    $configColumnIndex  = PHPExcel_Cell::columnIndexFromString($startCol);
+	    $configColumnIndex  = PHPExcel_Cell::columnIndexFromString($configCol);
 
 	    $log = '';
-	    for ($row = $startRow; $row <= $highestRow; $row ++) {
+	    for ($row = $lowestRow; $row <= $highestRow; $row ++) {
 	        $cell 		= $worksheet->getCellByColumnAndRow($configColumnIndex - 1, $row);
 	        $colorCell 	=  $cell->getStyle()->getFill()->getStartColor()->getRGB();
 	        $val 		= $cell->getValue();

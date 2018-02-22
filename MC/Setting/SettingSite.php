@@ -1,35 +1,57 @@
 <?php
 
 require_once './PHPExcel/PHPExcel/IOFactory.php';
-require_once './MC/Setting/Setting.php';
+require_once './MC/Setting/SettingInterface.php';
+require_once './MC/Model/DataQuery.php';
+require_once './MC/Setting/MajorItem/MajorItemFactory.php';
 
-class SettingSite implements Setting
+class SettingSite implements SettingInterface
 {
 	public function __construct() {
 
+		$this->majorItemObj = new MajorItemFactory();
 	}
 
 	public function executeSetting($corporation, $worksheet) {
-		
-		$highestRow         = $worksheet->getHighestRow(); // e.g. 10
-	    $highestColumn      = $worksheet->getHighestColumn(); // e.g 'F'
-	    $highestColumnIndex = PHPExcel_Cell::columnIndexFromString($highestColumn);
-	    $nrColumns = ord($highestColumn) - 64;
-	    echo $highestRow . '----' . $highestColumn . '-----'. $highestColumnIndex;
-	    echo $nrColumns . ' columns (A-' . $highestColumn . ') ';
-	    echo ' and ' . $highestRow . ' row.';
-	    echo '<br>Data: <table border="1"><tr>';
-	    for ($row = 1; $row <= $highestRow; ++ $row) {
-	        echo '<tr>';
-	        for ($col = 0; $col < $highestColumnIndex; ++ $col) {
-	            $cell = $worksheet->getCellByColumnAndRow($col, $row);
-	            $val = $cell->getValue();
-	            $dataType = PHPExcel_Cell_DataType::dataTypeForValue($val);
-	            echo '<td>' . $val . '</td>';
-	        }
-	        echo '</tr>';
+
+		$dataQueryObj 			= new DataQuery($corporation);
+		$connection 			= $dataQueryObj->getConnection()->getConnection();
+		// $connection->beginTransaction();
+
+		try {
+
+			$lowestRow 			= 3;
+			$lowestColumn 		= "C";
+			$highestRow         = $worksheet->getHighestRow();
+		    $lowestColumn 		= PHPExcel_Cell::columnIndexFromString($lowestColumn);
+		    $data 				= array();
+		    $majorItemType 		= '';
+
+		    for ($row = $lowestRow; $row <= $highestRow; $row++) {
+		    	$majorItemTypeNow = $worksheet->getCellByColumnAndRow($lowestColumn -1, $row)->getValue();
+	            $key 			= $worksheet->getCellByColumnAndRow($lowestColumn, $row)->getValue();
+	            $val 			= $worksheet->getCellByColumnAndRow($lowestColumn + 1, $row)->getValue();
+	            if (!empty($majorItemTypeNow)) {
+	            	if (!empty($data)) {
+	            		$majorItem = $this->majorItemObj->getMajorItemType($majorItemType, $dataQueryObj);
+	            		if ($majorItem != null) {
+	            			$majorItem->addItem($data);
+	            		}
+	            	}
+	            	$data = array();
+	            }
+	            $data[$key] = $val;
+	            if ($majorItemTypeNow != null) {
+	            	$majorItemType 	= $worksheet->getCellByColumnAndRow($lowestColumn -1, $row)->getValue();
+	            }
+		    }
+
+	    	// $connection->commit();
+	    } catch(Exception $e) {
+	    	//Print out the error message.
+	    	echo $e->getMessage();
+	    	// $connection->rollBack();
 	    }
-    	echo '</table>';
 	}
 }
 ?>

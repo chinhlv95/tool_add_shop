@@ -14,6 +14,7 @@ if (move_uploaded_file($_FILES['fileToUpload']['tmp_name'], $target_path)) {
     echo 'There was an error uploading the file, please try again!';
 }
 	echo "</br>";
+
 $control = new SettingController();
 $control->setShop($corporation, $target_path);
-?>
+

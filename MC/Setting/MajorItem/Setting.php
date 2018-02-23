@@ -3,7 +3,7 @@
 require_once './MC/Setting/MajorItem/MajorItemInterface.php';
 require_once './MC/Setting/Trait/TraitClass.php';
 
-class Site implements MajorItemInterface
+class Setting implements MajorItemInterface
 {
 	use TraitClass;
 
@@ -13,11 +13,10 @@ class Site implements MajorItemInterface
 	function __construct($dataQueryObj) {
 
 		$this->dataQueryObj = $dataQueryObj;
-		$this->table 		= 'site';
+		$this->table 		= 'setting';
 	}
 
 	public function addItem($data) {
-
 		$newData = array();
 		$this->formatData($data, $newData);
 		$checkData = $this->existData($newData);
@@ -30,15 +29,13 @@ class Site implements MajorItemInterface
 
 	public function formatData($oldData, &$newData) {
 
-		$newData['code'] 		= $oldData['サイトコード'];
-		$newData['name'] 		= $oldData['サイト名'];
-		$newData['name_kana'] 	= $oldData['サイト名カナ'];
+		$newData = $oldData;
 		$this->addTimestamps($newData);
 	}
 
 	public function existData($data) {
 
-		$resultData = $this->dataQueryObj->getData($this->table, 'code', $data['code']);
+		$resultData = $this->dataQueryObj->getData($this->table, 'key', $data['key']);
 		if ($resultData == false) {
 			return false;
 		} else {

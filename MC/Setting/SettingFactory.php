@@ -21,4 +21,3 @@ class SettingFactory
         return null;
 	}
 }
-?>

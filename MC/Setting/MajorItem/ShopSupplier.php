@@ -1,9 +1,12 @@
 <?php
 
 require_once './MC/Setting/MajorItem/MajorItemInterface.php';
+require_once './MC/Setting/Trait/TraitClass.php';
 
 class ShopSupplier implements MajorItemInterface
 {
+	use TraitClass;
+
 	private $table;
 	private $dataQueryObj;
 
@@ -21,7 +24,6 @@ class ShopSupplier implements MajorItemInterface
 		if ($checkData == false) {
 			$this->dataQueryObj->addData($this->table, $newData);
 		} else {
-			unset($newData['created_at']);
 			$this->dataQueryObj->updateData($this->table, $checkData->id, $newData);
 		}
 	}
@@ -39,8 +41,7 @@ class ShopSupplier implements MajorItemInterface
 		$site 					= $this->dataQueryObj->getData('site', 'name', $siteName);
 		$shop 					= $this->dataQueryObj->getDataWithMulConditions('shop', 'corporation_id', $corporation->id, 'site_id', $site->id);
 		$newData['shop_id'] 	= $shop->id;
-		$newData['created_at']	= date('Y-m-d H:i:s');
-		$newData['updated_at']	= date('Y-m-d H:i:s');
+		$this->addTimestamps($newData);
 	}
 
 	public function existData($data) {

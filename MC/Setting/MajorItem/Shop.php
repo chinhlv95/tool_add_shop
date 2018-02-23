@@ -1,9 +1,12 @@
 <?php
 
 require_once './MC/Setting/MajorItem/MajorItemInterface.php';
+require_once './MC/Setting/Trait/TraitClass.php';
 
 class Shop implements MajorItemInterface
 {
+	use TraitClass;
+
 	private $table;
 	private $dataQueryObj;
 
@@ -15,9 +18,19 @@ class Shop implements MajorItemInterface
 
 	public function addItem($data) {
 
-		$newData = array();
-		$this->formatData($data, $newData);
-		$this->dataQueryObj->addData($this->table, $newData);
+		try {
+			$newData = array();
+			$this->formatData($data, $newData);
+			$checkData = $this->existData($newData);
+			if ($checkData == false) {
+				$this->dataQueryObj->addData($this->table, $newData);
+			} else {
+				$this->dataQueryObj->updateData($this->table, $checkData->id, $newData);
+			}
+		} catch(Exception $e) {
+	    	//Print out the error message.
+	    	echo $e->getMessage();
+	    }
 	}
 
 	public function formatData($oldData, &$newData) {
@@ -46,7 +59,16 @@ class Shop implements MajorItemInterface
 		} elseif ($productCodeParentFlag == '紐付け対象') {
 			$newData['product_code_parent_flag'] = 2;
 		}
-		$newData['created_at']	= date('Y-m-d H:i:s');
-		$newData['updated_at']	= date('Y-m-d H:i:s');
+		$this->addTimestamps($newData);
+	}
+
+	public function existData($data) {
+
+		$resultData = $this->dataQueryObj->getData($this->table, 'code', $data['code']);
+		if ($resultData == false) {
+			return false;
+		} else {
+			return $resultData;
+		}
 	}
 }

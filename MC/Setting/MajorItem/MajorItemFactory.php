@@ -1,30 +1,44 @@
 <?php
 
-require_once './MC/Setting/MajorItem/Configuration.php';
+require_once './MC/Setting/MajorItem/Setting.php';
 require_once './MC/Setting/MajorItem/Shop.php';
 require_once './MC/Setting/MajorItem/ShopSupplier.php';
 require_once './MC/Setting/MajorItem/Site.php';
 require_once './MC/Setting/MajorItem/Supplier.php';
+require_once './MC/Setting/MajorItem/Al_Auth_User.php';
 
 class MajorItemFactory
 {
-	public function getMajorItemType($type, $dataQueryObj) {
+	public function __construct($dataQueryObj) {
+
+		$this->site 		= new Site($dataQueryObj);
+		$this->shop 		= new Shop($dataQueryObj);
+		$this->supplier 	= new Supplier($dataQueryObj);
+		$this->shopSupplier = new ShopSupplier($dataQueryObj);
+		$this->alAuthUser 	= new Al_Auth_User($dataQueryObj);
+		$this->setting 		= new Setting($dataQueryObj);
+	}
+
+	public function getMajorItemType($type) {
 
 		switch ($type) {
             case 'サイト':
-		    	return new Site($dataQueryObj);
+		    	return $this->site;
 		    	break;
 		    case 'ショップ':
-		        return new Shop($dataQueryObj);
+		        return $this->shop;
 		        break;
 		    case 'サプライヤ':
-		        return new Supplier($dataQueryObj);
+		        return $this->supplier;
 		        break;
 		    case 'ショップ-サプライヤ':
-		        return new ShopSupplier($dataQueryObj);
+		        return $this->shopSupplier;
+		        break;
+		    case '倉庫ユーザ':
+		        return $this->alAuthUser;
 		        break;
 		    case '設定':
-		        return new Configuration($dataQueryObj);
+		        return $this->setting;
 		        break;
 		    default:
 		        return null;
@@ -33,4 +47,3 @@ class MajorItemFactory
         return null;
 	}
 }
-?>

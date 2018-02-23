@@ -48,6 +48,7 @@ class PDOData
 
 		try {
 			$this->db->exec($exec);
+			return $this->db->lastInsertId();
 		} catch(PDOException $e) {
 	    	echo $e->getMessage();
 	    }

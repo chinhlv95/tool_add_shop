@@ -30,4 +30,3 @@ class CreateFolder implements SettingInterface
 	    file_put_contents('./logs/log-'.date("Y-m-d").'.txt', $log, FILE_APPEND);
 	}
 }
-?>

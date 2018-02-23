@@ -19,25 +19,28 @@ class DataQuery extends PDOData
 	public function addData($table, $data) {
 
 		$data = $this->prepareAddData($data);
-		$this->dbPDO->executeData('INSERT INTO ' . $table . $data['key'] . ' VALUES ' . $data['value']);
+		$dataId = $this->dbPDO->executeData('INSERT INTO `' . $table . '`' . $data['key'] . ' VALUES ' . $data['value']);
+		return $dataId;
 	}
 
 	public function getData($table, $fieldName, $value) {
-
-		$result = $this->dbPDO->SELECTData('SELECT * FROM ' . $table . ' WHERE ' . $fieldName . ' = "' .$value . '" LIMIT 1');
+		$result = $this->dbPDO->selectData('SELECT * FROM `' . $table . '` WHERE `' . $fieldName . '` = "' .$value . '" LIMIT 1');
 		return $result;
 	}
 
 	public function getDataWithMulConditions($table, $fieldName1, $value1, $fieldName2, $value2) {
 
-		$result = $this->dbPDO->SELECTData('SELECT * FROM ' . $table . ' WHERE ' . $fieldName1 . ' = "' . $value1 . '" AND ' . $fieldName2 . ' = "' .$value2 . '" LIMIT 1');
+		$result = $this->dbPDO->selectData('SELECT * FROM `' . $table . '` WHERE `' . $fieldName1 . '` = "' . $value1 . '" AND `' . $fieldName2 . '` = "' .$value2 . '" LIMIT 1');
 		return $result;
 	}
 
 	public function updateData($table, $id, $data) {
 
+		if (!empty($data['created_at'])) {
+			unset($data['created_at']);
+		}
 		$data = $this->prepareUpdateData($data);
-		$this->dbPDO->executeData('UPDATE ' . $table . ' SET ' . $data . ' WHERE id = ' . $id);
+		$this->dbPDO->executeData('UPDATE `' . $table . '` SET ' . $data . ' WHERE id = ' . $id);
 	}
 
 	public function prepareAddData($data) {
@@ -45,7 +48,7 @@ class DataQuery extends PDOData
 		$key 	= '(';
 		$value 	= '(';
 		foreach ($data as $k => $v) {
-			$key 	.= $k . ', ';
+			$key 	.= '`' . $k . '`, ';
 			$value 	.= '\'' . $v . '\', ';
 		}
 		$key 	= substr($key, 0, -2) . ')';
@@ -57,7 +60,7 @@ class DataQuery extends PDOData
 
 		$result = '';
 		foreach ($data as $k => $v) {
-			$result	.= $k . ' = \'' . $v . '\', ';
+			$result	.= '`' . $k . '` = \'' . $v . '\', ';
 		}
 		$result = substr($result, 0, -2);
 		return $result;

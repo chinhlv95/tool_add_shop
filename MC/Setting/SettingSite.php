@@ -7,16 +7,11 @@ require_once './MC/Setting/MajorItem/MajorItemFactory.php';
 
 class SettingSite implements SettingInterface
 {
-	public function __construct() {
-
-		$this->majorItemObj = new MajorItemFactory();
-	}
 
 	public function executeSetting($corporation, $worksheet) {
 
-		$dataQueryObj 			= new DataQuery($corporation);
-		$connection 			= $dataQueryObj->getConnection()->getConnection();
-		// $connection->beginTransaction();
+		$dataQueryObj 	= new DataQuery($corporation);
+		$majorItemObj 	= new MajorItemFactory($dataQueryObj);
 
 		try {
 
@@ -28,30 +23,52 @@ class SettingSite implements SettingInterface
 		    $majorItemType 		= '';
 
 		    for ($row = $lowestRow; $row <= $highestRow; $row++) {
-		    	$majorItemTypeNow = $worksheet->getCellByColumnAndRow($lowestColumn -1, $row)->getValue();
-	            $key 			= $worksheet->getCellByColumnAndRow($lowestColumn, $row)->getValue();
-	            $val 			= $worksheet->getCellByColumnAndRow($lowestColumn + 1, $row)->getValue();
-	            if (!empty($majorItemTypeNow)) {
-	            	if (!empty($data)) {
-	            		$majorItem = $this->majorItemObj->getMajorItemType($majorItemType, $dataQueryObj);
-	            		if ($majorItem != null) {
-	            			$majorItem->addItem($data);
-	            		}
-	            	}
-	            	$data = array();
-	            }
-	            $data[$key] = $val;
-	            if ($majorItemTypeNow != null) {
-	            	$majorItemType 	= $worksheet->getCellByColumnAndRow($lowestColumn -1, $row)->getValue();
-	            }
+		    	$colorCell 		=  $worksheet->getCellByColumnAndRow($lowestColumn - 1, $row)->getStyle()->getFill()->getStartColor()->getRGB();
+		    	if ($colorCell == 'FFFFFF' || $colorCell == '000000') {
+			    	$checkConfigurationName = $worksheet->getCellByColumnAndRow($lowestColumn - 2, $row)->getValue();
+			    	if ($checkConfigurationName != '設定') {
+				    	$majorItemTypeNow 	= $worksheet->getCellByColumnAndRow($lowestColumn - 1, $row)->getValue();
+			            $key 				= $worksheet->getCellByColumnAndRow($lowestColumn, $row)->getValue();
+			            $val 				= $worksheet->getCellByColumnAndRow($lowestColumn + 1, $row)->getValue();
+			            if (!empty($majorItemTypeNow)) {
+			            	if (!empty($data)) {
+			            		$majorItem = $majorItemObj->getMajorItemType($majorItemType);
+			            		if ($majorItem != null) {
+			            			$majorItem->addItem($data);
+			            		}
+			            	}
+			            	$data = array();
+			            }
+			            $data[$key] = $val;
+			            if ($majorItemTypeNow != null) {
+			            	$majorItemType 	= $worksheet->getCellByColumnAndRow($lowestColumn -1, $row)->getValue();
+			            }
+			        } elseif ($checkConfigurationName == '設定') {
+			        	if (!empty($data)) {
+		            		$majorItem = $majorItemObj->getMajorItemType($majorItemType);
+		            		if ($majorItem != null) {
+		            			$majorItem->addItem($data);
+		            		}
+		            	}
+			        	$majorItemType = '設定';
+			        	$majorItem = $majorItemObj->getMajorItemType($majorItemType);
+			        	for ($row1 = $row + 2; $row1 <= $highestRow; $row1++) {
+			        		$setting['name']	= $worksheet->getCellByColumnAndRow($lowestColumn, $row1)->getValue();
+			            	$setting['key'] 	= $worksheet->getCellByColumnAndRow($lowestColumn + 1, $row1)->getValue();
+			            	$setting['value']	= $worksheet->getCellByColumnAndRow($lowestColumn + 2, $row1)->getValue();
+			            	if ($setting['key'] != null) {
+			            		$majorItem->addItem($setting);
+			            	} else {
+			            		break;
+			            	}
+			        	}
+			        	break;
+			        }
+			    }
 		    }
-
-	    	// $connection->commit();
 	    } catch(Exception $e) {
 	    	//Print out the error message.
 	    	echo $e->getMessage();
-	    	// $connection->rollBack();
 	    }
 	}
 }
-?>

@@ -6,9 +6,10 @@
 
 class PDOData
 {
+	static private $instance = null;
 	private $db = null;
 
-	function __construct($corporation) {
+	private function __construct($corporation) {
 
 		try {
 			$servelName 	= "localhost";
@@ -16,19 +17,22 @@ class PDOData
 			$username 		= "root";
 			$password 		= "";
 			$this->db 		= new PDO("mysql:dbname=$databaseName;host=$servelName", $username, $password);
-			$this->setConnection();
-		} catch(PDOException $ex) {
+			$this->setConnectionNames();
+		} catch (PDOException $ex) {
 			echo 'Connection failed: ' . $ex->getMessage();
 		}
 	}
 
-	public function setConnection() {
-		$this->db->exec("SET names utf8");
+	static function getInstance($corporation) {
+
+		if (self::$instance == null) {
+			self::$instance = new PDOData($corporation);
+		}
+		return self::$instance;
 	}
 
-	public function getConnection() {
-
-		return $this->db;
+	public function setConnectionNames() {
+		$this->db->exec("SET names utf8");
 	}
 
 	public function selectData($query) {
@@ -38,7 +42,7 @@ class PDOData
 			$stmt = $this->db->prepare($query); 
 			$stmt->execute();
 			$response = $stmt->fetch(PDO::FETCH_OBJ);
-        } catch(PDOException $ex) {	
+        } catch (PDOException $ex) {	
         	echo $ex->getMessage(); 
         }
         return $response;
@@ -49,8 +53,8 @@ class PDOData
 		try {
 			$this->db->exec($exec);
 			return $this->db->lastInsertId();
-		} catch(PDOException $e) {
-	    	echo $e->getMessage();
+		} catch (PDOException $ex) {
+	    	echo $ex->getMessage();
 	    }
 	}
 }

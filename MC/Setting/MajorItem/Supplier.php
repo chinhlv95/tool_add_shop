@@ -1,18 +1,19 @@
 <?php
 
 require_once './MC/Setting/MajorItem/MajorItemInterface.php';
+require_once './MC/Model/DataQuery.php';
 require_once './MC/Setting/Trait/TraitClass.php';
 
 class Supplier implements MajorItemInterface
 {
 	use TraitClass;
 
-	private $table;
 	private $dataQueryObj;
+	private $table;
 
-	function __construct($dataQueryObj) {
+	public function __construct() {
 
-		$this->dataQueryObj = $dataQueryObj;
+		$this->dataQueryObj = DataQuery::getInstance();
 		$this->table 		= 'supplier';
 	}
 

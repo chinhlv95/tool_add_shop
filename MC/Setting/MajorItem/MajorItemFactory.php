@@ -9,14 +9,14 @@ require_once './MC/Setting/MajorItem/Al_Auth_User.php';
 
 class MajorItemFactory
 {
-	public function __construct($dataQueryObj) {
+	public function __construct() {
 
-		$this->site 		= new Site($dataQueryObj);
-		$this->shop 		= new Shop($dataQueryObj);
-		$this->supplier 	= new Supplier($dataQueryObj);
-		$this->shopSupplier = new ShopSupplier($dataQueryObj);
-		$this->alAuthUser 	= new Al_Auth_User($dataQueryObj);
-		$this->setting 		= new Setting($dataQueryObj);
+		$this->site 		= new Site();
+		$this->shop 		= new Shop();
+		$this->supplier 	= new Supplier();
+		$this->shopSupplier = new ShopSupplier();
+		$this->alAuthUser 	= new Al_Auth_User();
+		$this->setting 		= new Setting();
 	}
 
 	public function getMajorItemType($type) {

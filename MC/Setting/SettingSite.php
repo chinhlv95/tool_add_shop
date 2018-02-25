@@ -10,8 +10,8 @@ class SettingSite implements SettingInterface
 
 	public function executeSetting($corporation, $worksheet) {
 
-		$dataQueryObj 	= new DataQuery($corporation);
-		$majorItemObj 	= new MajorItemFactory($dataQueryObj);
+		$dataQueryObj 	= DataQuery::getInstance($corporation);
+		$majorItemObj 	= new MajorItemFactory();
 
 		try {
 

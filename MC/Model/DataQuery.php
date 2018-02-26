@@ -4,15 +4,17 @@ require_once './MC/Model/PDOData.php';
 
 class DataQuery extends PDOData
 {
-	static private $instance = null;
-	private $dbPDO = null;
+	static private $instance 	= null;
+	private $dbPDO 				= null;
+	private $corporation 		= null;
 
 	private function __construct($corporation) {
 
-		$this->dbPDO = PDOData::getInstance($corporation);
+		$this->dbPDO 		= PDOData::getInstance($corporation);
+		$this->corporation 	= $corporation;
 	}
 
-	static function getInstance() {
+	static function getDataQueryObj() {
 
 		return self::$instance;
 	}
@@ -23,6 +25,10 @@ class DataQuery extends PDOData
 			self::$instance = new DataQuery($corporation);
 		}
 		return self::$instance;
+	}
+
+	public function getCorporation() {
+		return $this->corporation;
 	}
 
 	public function addData($table, $data) {

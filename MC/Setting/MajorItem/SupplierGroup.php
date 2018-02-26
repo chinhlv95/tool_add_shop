@@ -4,7 +4,7 @@ require_once './MC/Setting/MajorItem/MajorItemInterface.php';
 require_once './MC/Model/DataQuery.php';
 require_once './MC/Setting/Trait/TraitClass.php';
 
-class Shop implements MajorItemInterface
+class SupplierGroup implements MajorItemInterface
 {
 	use TraitClass;
 
@@ -14,7 +14,7 @@ class Shop implements MajorItemInterface
 	function __construct() {
 
 		$this->dataQueryObj = DataQuery::getDataQueryObj();
-		$this->table 		= 'shop';
+		$this->table 		= 'supplier_group';
 	}
 
 	public function addItem($data) {
@@ -37,36 +37,16 @@ class Shop implements MajorItemInterface
 
 	public function formatData($oldData, &$newData) {
 
-		$corporationName 		= $oldData['法人名'];
-		$siteName 				= $oldData['サイト名'];
-		$type 					= $oldData['種別'];
-		$productCodeParentFlag 	= $oldData['SCS商品コード主店舗'];
-		$newData['code'] 		= $oldData['コード'];
-		$newData['user_name'] 	= $oldData['担当者名'];
-		$newData['tel'] 		= $oldData['電話番号'];
-		$newData['fax'] 		= '';
-		$newData['email'] 		= $oldData['メールアドレス'];
-		$newData['url_path'] 	= $oldData['URL'];
+		$corporationName 			= $oldData['法人'];
+		$newData['name'] 			= $oldData['サプライヤグループ名'];
 		$corporation 				= $this->dataQueryObj->getData('corporation', 'name', $corporationName);
 		$newData['corporation_id'] 	= $corporation->id;
-		$site 						= $this->dataQueryObj->getData('site', 'name', $siteName);
-		$newData['site_id'] 		= $site->id;
-		if ($type == 'API') {
-			$newData['kind'] = 1;
-		} elseif ($type == 'バッチ') {
-			$newData['kind'] = 2;
-		}
-		if ($productCodeParentFlag == '主店舗') {
-			$newData['product_code_parent_flag'] = 1;
-		} elseif ($productCodeParentFlag == '紐付け対象') {
-			$newData['product_code_parent_flag'] = 2;
-		}
 		$this->addTimestamps($newData);
 	}
 
 	public function existData($data) {
 
-		$resultData = $this->dataQueryObj->getData($this->table, 'code', $data['code']);
+		$resultData = $this->dataQueryObj->getData($this->table, 'name', $data['name']);
 		return $resultData;
 	}
 }

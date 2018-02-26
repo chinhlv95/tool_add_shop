@@ -14,7 +14,7 @@ class Al_Auth_User implements MajorItemInterface
 
 	function __construct() {
 
-		$this->dataQueryObj = DataQuery::getInstance();
+		$this->dataQueryObj = DataQuery::getDataQueryObj();
 		$this->table 		= 'al_auth_user';
 		$this->passWord 	= 'password';
 		$this->phpass 		= new PasswordHash(12, true);
@@ -22,7 +22,8 @@ class Al_Auth_User implements MajorItemInterface
 
 	public function addItem($data) {
 
-		$newData = array();
+		$newData 		= array();
+		$data 			= $this->trimData($data);
 		$this->formatData($data, $newData);
 		$checkAlAuthUser = $this->existData($newData['al_auth_user']);
 		if ($checkAlAuthUser == false) {
@@ -70,11 +71,7 @@ class Al_Auth_User implements MajorItemInterface
 	public function existData($data) {
 
 		$resultData = $this->dataQueryObj->getData('al_auth_user', 'user_id', $data['user_id']);
-		if ($resultData == false) {
-			return false;
-		} else {
-			return $resultData;
-		}
+		return $resultData;
 	}
 
 	public function getPermission($permissionName) {

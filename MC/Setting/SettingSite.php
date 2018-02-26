@@ -26,6 +26,7 @@ class SettingSite implements SettingInterface
 		    	$colorCell 		=  $worksheet->getCellByColumnAndRow($lowestColumn - 1, $row)->getStyle()->getFill()->getStartColor()->getRGB();
 		    	if ($colorCell == 'FFFFFF' || $colorCell == '000000') {
 			    	$checkConfigurationName = $worksheet->getCellByColumnAndRow($lowestColumn - 2, $row)->getValue();
+			    	$checkConfigurationName = trim($checkConfigurationName, '	 ');
 			    	if ($checkConfigurationName != '設定') {
 				    	$majorItemTypeNow 	= $worksheet->getCellByColumnAndRow($lowestColumn - 1, $row)->getValue();
 			            $key 				= $worksheet->getCellByColumnAndRow($lowestColumn, $row)->getValue();
@@ -40,7 +41,7 @@ class SettingSite implements SettingInterface
 			            	$data = array();
 			            }
 			            $data[$key] = $val;
-			            if ($majorItemTypeNow != null) {
+			            if (!empty($majorItemTypeNow)) {
 			            	$majorItemType 	= $worksheet->getCellByColumnAndRow($lowestColumn -1, $row)->getValue();
 			            }
 			        } elseif ($checkConfigurationName == '設定') {

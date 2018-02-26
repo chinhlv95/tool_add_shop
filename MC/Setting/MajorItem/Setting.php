@@ -13,14 +13,15 @@ class Setting implements MajorItemInterface
 
 	function __construct() {
 
-		$this->dataQueryObj = DataQuery::getInstance();
+		$this->dataQueryObj = DataQuery::getDataQueryObj();
 		$this->table 		= 'setting';
 	}
 
 	public function addItem($data) {
-		$newData = array();
+		$newData 	= array();
+		$data 		= $this->trimData($data);
 		$this->formatData($data, $newData);
-		$checkData = $this->existData($newData);
+		$checkData 	= $this->existData($newData);
 		if ($checkData == false) {
 			$this->dataQueryObj->addData($this->table, $newData);
 		} else {
@@ -37,10 +38,6 @@ class Setting implements MajorItemInterface
 	public function existData($data) {
 
 		$resultData = $this->dataQueryObj->getData($this->table, 'key', $data['key']);
-		if ($resultData == false) {
-			return false;
-		} else {
-			return $resultData;
-		}
+		return $resultData;
 	}
 }

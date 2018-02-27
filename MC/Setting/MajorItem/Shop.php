@@ -4,7 +4,7 @@ require_once './MC/Setting/MajorItem/MajorItemInterface.php';
 require_once './MC/Model/DataQuery.php';
 require_once './MC/Setting/Trait/TraitClass.php';
 
-class Shop extends TraitClass implements MajorItemInterface
+class Shop implements MajorItemInterface
 {
 
 	private $dataQueryObj;
@@ -20,7 +20,7 @@ class Shop extends TraitClass implements MajorItemInterface
 
 		try {
 			$newData 	= array();
-			$data 		= $this->trimData($data);
+			$data 		= TraitClass::trimData($data);
 			$this->formatData($data, $newData);
 			$checkData 	= $this->existData($newData);
 			if ($checkData == false) {
@@ -60,7 +60,7 @@ class Shop extends TraitClass implements MajorItemInterface
 		} elseif ($productCodeParentFlag == '紐付け対象') {
 			$newData['product_code_parent_flag'] = 2;
 		}
-		$this->addTimestamps($newData);
+		TraitClass::addTimestamps($newData);
 	}
 
 	public function existData($data) {

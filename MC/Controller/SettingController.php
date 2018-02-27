@@ -6,6 +6,7 @@ require_once './MC/Setting/SettingFactory.php';
 class SettingController
 {
 	public function __construct() {
+
 		$this->settingType = new SettingFactory();
 	}
 

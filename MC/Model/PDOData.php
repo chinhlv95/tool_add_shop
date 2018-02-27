@@ -32,6 +32,7 @@ class PDOData
 	}
 
 	public function setConnectionNames() {
+
 		$this->db->exec("SET names utf8");
 	}
 

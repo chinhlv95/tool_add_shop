@@ -17,4 +17,3 @@ if (move_uploaded_file($_FILES['fileToUpload']['tmp_name'], $target_path)) {
 
 $control = new SettingController();
 $control->setShop($corporation, $target_path);
-

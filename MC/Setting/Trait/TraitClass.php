@@ -2,7 +2,7 @@
 
 class TraitClass
 {
-    public function addTimestamps(&$data) {
+    public static function addTimestamps(&$data) {
 
         $now = date('Y-m-d H:i:s');
         $data['created_at']	= $now;
@@ -11,7 +11,7 @@ class TraitClass
 		$data['updated_by']	= 'aloha_admin';
     }
 
-    public function addTimestampsWithCorporation(&$data, $corporation) {
+    public static function addTimestampsWithCorporation(&$data, $corporation) {
 
         $now = date('Y-m-d H:i:s');
         $data['created_at']	= $now;
@@ -20,17 +20,18 @@ class TraitClass
 		$data['updated_by']	= $corporation;
     }
 
-    public function trimSpace($string) {
+    public static function trimSpace($string) {
 
 	    $string = trim($string,'	 ');
 	    return $string;
 	}
 
-	public function trimData($data) {
+	public static function trimData($data) {
 
-		$key 	= array_map(array($this, 'trimSpace'), array_keys($data));
-		$value 	= array_map(array($this, 'trimSpace'), $data);
-		$result = array_combine($key, $value);
+		$instance 	= new self();
+		$key 		= array_map(array($instance, 'trimSpace'), array_keys($data));
+		$value 		= array_map(array($instance, 'trimSpace'), $data);
+		$result 	= array_combine($key, $value);
 		return $result;
 	}
 }

@@ -4,7 +4,7 @@ require_once './MC/Setting/MajorItem/MajorItemInterface.php';
 require_once './MC/Model/DataQuery.php';
 require_once './MC/Setting/Trait/TraitClass.php';
 
-class Setting extends TraitClass implements MajorItemInterface
+class Setting implements MajorItemInterface
 {
 
 	private $dataQueryObj;
@@ -17,8 +17,9 @@ class Setting extends TraitClass implements MajorItemInterface
 	}
 
 	public function addItem($data) {
+
 		$newData 	= array();
-		$data 		= $this->trimData($data);
+		$data 		= TraitClass::trimData($data);
 		$this->formatData($data, $newData);
 		$checkData 	= $this->existData($newData);
 		if ($checkData == false) {
@@ -31,7 +32,7 @@ class Setting extends TraitClass implements MajorItemInterface
 	public function formatData($oldData, &$newData) {
 
 		$newData = $oldData;
-		$this->addTimestamps($newData);
+		TraitClass::addTimestamps($newData);
 	}
 
 	public function existData($data) {

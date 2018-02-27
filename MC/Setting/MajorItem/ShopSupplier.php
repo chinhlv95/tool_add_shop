@@ -4,7 +4,7 @@ require_once './MC/Setting/MajorItem/MajorItemInterface.php';
 require_once './MC/Model/DataQuery.php';
 require_once './MC/Setting/Trait/TraitClass.php';
 
-class ShopSupplier extends TraitClass implements MajorItemInterface
+class ShopSupplier implements MajorItemInterface
 {
 
 	private $dataQueryObj;
@@ -19,7 +19,7 @@ class ShopSupplier extends TraitClass implements MajorItemInterface
 	public function addItem($data) {
 
 		$newData 	= array();
-		$data 		= $this->trimData($data);
+		$data 		= TraitClass::trimData($data);
 		$this->formatData($data, $newData);
 		$checkData 	= $this->existData($newData);
 		if ($checkData == false) {
@@ -42,7 +42,7 @@ class ShopSupplier extends TraitClass implements MajorItemInterface
 		$site 					= $this->dataQueryObj->getData('site', 'name', $siteName);
 		$shop 					= $this->dataQueryObj->getDataWithMulConditions('shop', 'corporation_id', $corporation->id, 'site_id', $site->id);
 		$newData['shop_id'] 	= $shop->id;
-		$this->addTimestamps($newData);
+		TraitClass::addTimestamps($newData);
 	}
 
 	public function existData($data) {

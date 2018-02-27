@@ -1,6 +1,7 @@
 <?php
 
 require_once './MC/Model/PDOData.php';
+require_once './Log/Log.php';
 
 class DataQuery extends PDOData
 {
@@ -28,17 +29,12 @@ class DataQuery extends PDOData
 	}
 
 	public function getCorporation() {
+
 		return $this->corporation;
 	}
 
-	public function addData($table, $data) {
-
-		$data = $this->prepareAddData($data);
-		$dataId = $this->dbPDO->executeData('INSERT INTO `' . $table . '`' . $data['key'] . ' VALUES ' . $data['value']);
-		return $dataId;
-	}
-
 	public function getData($table, $fieldName, $value) {
+
 		$result = $this->dbPDO->selectData('SELECT * FROM `' . $table . '` WHERE `' . $fieldName . '` = "' .$value . '" LIMIT 1');
 		return $result;
 	}
@@ -49,11 +45,20 @@ class DataQuery extends PDOData
 		return $result;
 	}
 
+	public function addData($table, $data) {
+
+		Log::writeQueryLog( __FUNCTION__, $data);
+		$data 	= $this->prepareAddData($data);
+		$dataId = $this->dbPDO->executeData('INSERT INTO `' . $table . '`' . $data['key'] . ' VALUES ' . $data['value']);
+		return $dataId;
+	}
+
 	public function updateData($table, $id, $data) {
 
 		if (!empty($data['created_at'])) {
 			unset($data['created_at']);
 		}
+		Log::writeQueryLog( __FUNCTION__, $data);
 		$data = $this->prepareUpdateData($data);
 		$this->dbPDO->executeData('UPDATE `' . $table . '` SET ' . $data . ' WHERE id = ' . $id);
 	}

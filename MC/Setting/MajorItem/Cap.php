@@ -4,7 +4,7 @@ require_once './MC/Setting/MajorItem/MajorItemInterface.php';
 require_once './MC/Model/DataQuery.php';
 require_once './MC/Setting/Trait/TraitClass.php';
 
-class Cap extends TraitClass implements MajorItemInterface
+class Cap implements MajorItemInterface
 {
 
 	private $dataQueryObj;
@@ -20,7 +20,7 @@ class Cap extends TraitClass implements MajorItemInterface
 
 		try {
 			$newData 	= array();
-			$data 		= $this->trimData($data);
+			$data 		= TraitClass::trimData($data);
 			$this->formatData($data, $newData);
 			$checkData 	= $this->existData($newData);
 			if ($checkData == false) {
@@ -43,7 +43,7 @@ class Cap extends TraitClass implements MajorItemInterface
 		$newData['name'] 				= $oldData['CAP条件名'];
 		$newData['quantity'] 			= $oldData['実店舗用数量'];
 		$newData['type'] 				= $this->getCapType($oldData['タイプ']);
-		$this->addTimestampsWithCorporation($newData, $this->dataQueryObj->getCorporation());
+		TraitClass::addTimestampsWithCorporation($newData, $this->dataQueryObj->getCorporation());
 	}
 
 	public function existData($data) {

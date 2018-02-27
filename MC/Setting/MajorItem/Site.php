@@ -4,7 +4,7 @@ require_once './MC/Setting/MajorItem/MajorItemInterface.php';
 require_once './MC/Model/DataQuery.php';
 require_once './MC/Setting/Trait/TraitClass.php';
 
-class Site extends TraitClass implements MajorItemInterface
+class Site implements MajorItemInterface
 {
 
 	private $dataQueryObj;
@@ -19,7 +19,7 @@ class Site extends TraitClass implements MajorItemInterface
 	public function addItem($data) {
 
 		$newData 	= array();
-		$data 		= $this->trimData($data);
+		$data 		= TraitClass::trimData($data);
 		$this->formatData($data, $newData);
 		$checkData 	= $this->existData($newData);
 		if ($checkData == false) {
@@ -34,7 +34,7 @@ class Site extends TraitClass implements MajorItemInterface
 		$newData['code'] 		= $oldData['サイトコード'];
 		$newData['name'] 		= $oldData['サイト名'];
 		$newData['name_kana'] 	= $oldData['サイト名カナ'];
-		$this->addTimestamps($newData);
+		TraitClass::addTimestamps($newData);
 	}
 
 	public function existData($data) {

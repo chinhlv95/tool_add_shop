@@ -4,6 +4,7 @@ require_once './PHPExcel/PHPExcel/IOFactory.php';
 require_once './MC/Setting/SettingInterface.php';
 require_once './MC/Model/DataQuery.php';
 require_once './MC/Setting/MajorItem/MajorItemFactory.php';
+require_once './Log/Log.php';
 
 class SettingSite implements SettingInterface
 {
@@ -35,6 +36,7 @@ class SettingSite implements SettingInterface
 			            	if (!empty($data)) {
 			            		$majorItem = $majorItemObj->getMajorItemType($majorItemType);
 			            		if ($majorItem != null) {
+			            			Log::writeMajorLog($majorItemType);
 			            			$majorItem->addItem($data);
 			            		}
 			            	}
@@ -48,6 +50,7 @@ class SettingSite implements SettingInterface
 			        	if (!empty($data)) {
 		            		$majorItem = $majorItemObj->getMajorItemType($majorItemType);
 		            		if ($majorItem != null) {
+		            			Log::writeMajorLog($majorItemType);
 		            			$majorItem->addItem($data);
 		            		}
 		            	}
@@ -58,6 +61,7 @@ class SettingSite implements SettingInterface
 			            	$setting['key'] 	= $worksheet->getCellByColumnAndRow($lowestColumn + 1, $row1)->getValue();
 			            	$setting['value']	= $worksheet->getCellByColumnAndRow($lowestColumn + 2, $row1)->getValue();
 			            	if ($setting['key'] != null) {
+			            		Log::writeMajorLog($majorItemType);
 			            		$majorItem->addItem($setting);
 			            	} else {
 			            		break;

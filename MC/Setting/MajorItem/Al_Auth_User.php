@@ -5,7 +5,7 @@ require_once './MC/Setting/Trait/TraitClass.php';
 require_once './phpass/PasswordHash.php';
 require_once './MC/Model/DataQuery.php';
 
-class Al_Auth_User extends TraitClass implements MajorItemInterface
+class Al_Auth_User implements MajorItemInterface
 {
 
 	private $dataQueryObj;
@@ -22,7 +22,7 @@ class Al_Auth_User extends TraitClass implements MajorItemInterface
 	public function addItem($data) {
 
 		$newData 		= array();
-		$data 			= $this->trimData($data);
+		$data 			= TraitClass::trimData($data);
 		$this->formatData($data, $newData);
 		$checkAlAuthUser = $this->existData($newData['al_auth_user']);
 		if ($checkAlAuthUser == false) {
@@ -48,10 +48,10 @@ class Al_Auth_User extends TraitClass implements MajorItemInterface
 
 		$newData['al_auth_user']['user_id'] 	= $oldData['ユーザID'];
 		$newData['al_auth_user']['password'] 	= $this->phpass->HashPassword($this->passWord);
-		$this->addTimestamps($newData['al_auth_user']);
+		TraitClass::addTimestamps($newData['al_auth_user']);
 
 		$newData['al_auth_user_permission']['al_auth_permission_id']	= $this->getPermission($oldData['権限']);
-		$this->addTimestamps($newData['al_auth_user_permission']);
+		TraitClass::addTimestamps($newData['al_auth_user_permission']);
 
 		$newData['user_profile']['name']		= $oldData['管理ユーザ名'];
 		$newData['user_profile']['description']	= $oldData['ユーザの説明'];
@@ -64,7 +64,7 @@ class Al_Auth_User extends TraitClass implements MajorItemInterface
 		$supplier 		= $this->dataQueryObj->getData('supplier', 'code', $oldData['サプライヤ']);
 		$newData['user_profile']['corporation_id']	= $corporation->id;
 		$newData['user_profile']['supplier_id']		= $supplier->id;
-		$this->addTimestamps($newData['user_profile']);
+		TraitClass::addTimestamps($newData['user_profile']);
 	}
 
 	public function existData($data) {

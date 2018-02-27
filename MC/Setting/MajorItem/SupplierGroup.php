@@ -4,7 +4,7 @@ require_once './MC/Setting/MajorItem/MajorItemInterface.php';
 require_once './MC/Model/DataQuery.php';
 require_once './MC/Setting/Trait/TraitClass.php';
 
-class SupplierGroup extends TraitClass implements MajorItemInterface
+class SupplierGroup implements MajorItemInterface
 {
 
 	private $dataQueryObj;
@@ -20,7 +20,7 @@ class SupplierGroup extends TraitClass implements MajorItemInterface
 
 		try {
 			$newData 	= array();
-			$data 		= $this->trimData($data);
+			$data 		= TraitClass::trimData($data);
 			$this->formatData($data, $newData);
 			$checkData 	= $this->existData($newData);
 			if ($checkData == false) {
@@ -40,7 +40,7 @@ class SupplierGroup extends TraitClass implements MajorItemInterface
 		$newData['name'] 			= $oldData['サプライヤグループ名'];
 		$corporation 				= $this->dataQueryObj->getData('corporation', 'name', $corporationName);
 		$newData['corporation_id'] 	= $corporation->id;
-		$this->addTimestamps($newData);
+		TraitClass::addTimestamps($newData);
 	}
 
 	public function existData($data) {

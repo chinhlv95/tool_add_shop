@@ -68,7 +68,7 @@ class DataQuery extends PDOData
 		}
 		$key 	= substr($key, 0, -2) . ')';
 		$value 	= substr($value, 0, -2) . ')';
-		return ['key' => $key, 'value' => $value];
+		return array('key' => $key, 'value' => $value);
 	}
 
 	public function prepareUpdateData($data) {

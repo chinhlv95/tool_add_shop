@@ -8,9 +8,8 @@ require_once './MC/Setting/MajorItem/Al_Auth_User.php';
 require_once './MC/Setting/MajorItem/Setting.php';
 require_once './MC/Setting/MajorItem/SupplierGroup.php';
 require_once './MC/Setting/MajorItem/Cap.php';
-require_once './MC/Setting/Trait/TraitClass.php';
 
-class MajorItemFactory extends TraitClass
+class MajorItemFactory
 {
 
 	public function __construct() {
@@ -27,7 +26,7 @@ class MajorItemFactory extends TraitClass
 
 	public function getMajorItemType($type) {
 
-		$type = $this->trimSpace($type);
+		$type = trim($type,'	 ');
 
 		switch ($type) {
             case 'サイト':

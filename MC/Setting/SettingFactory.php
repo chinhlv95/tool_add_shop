@@ -2,14 +2,13 @@
 
 require_once './MC/Setting/CreateFolder.php';
 require_once './MC/Setting/SettingSite.php';
-require_once './MC/Setting/Trait/TraitClass.php';
 
-class SettingFactory extends TraitClass
+class SettingFactory
 {
 
 	public function getSettingType($type) {
 
-		$type = $this->trimSpace($type);
+		$type = trim($type,'	 ');
 
 		switch ($type) {
             case 'SCSサーバ作業':

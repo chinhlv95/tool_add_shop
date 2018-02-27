@@ -5,9 +5,8 @@ require_once './MC/Setting/Trait/TraitClass.php';
 require_once './phpass/PasswordHash.php';
 require_once './MC/Model/DataQuery.php';
 
-class Al_Auth_User implements MajorItemInterface
+class Al_Auth_User extends TraitClass implements MajorItemInterface
 {
-	use TraitClass;
 
 	private $dataQueryObj;
 	private $table;

@@ -4,9 +4,8 @@ require_once './MC/Setting/MajorItem/MajorItemInterface.php';
 require_once './MC/Model/DataQuery.php';
 require_once './MC/Setting/Trait/TraitClass.php';
 
-class Shop implements MajorItemInterface
+class Shop extends TraitClass implements MajorItemInterface
 {
-	use TraitClass;
 
 	private $dataQueryObj;
 	private $table;

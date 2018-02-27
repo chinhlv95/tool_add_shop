@@ -4,9 +4,8 @@ require_once './MC/Setting/CreateFolder.php';
 require_once './MC/Setting/SettingSite.php';
 require_once './MC/Setting/Trait/TraitClass.php';
 
-class SettingFactory
+class SettingFactory extends TraitClass
 {
-	use TraitClass;
 
 	public function getSettingType($type) {
 

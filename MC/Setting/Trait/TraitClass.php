@@ -1,6 +1,6 @@
 <?php
 
-trait TraitClass
+class TraitClass
 {
     public function addTimestamps(&$data) {
 

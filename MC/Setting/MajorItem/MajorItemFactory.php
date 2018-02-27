@@ -10,9 +10,8 @@ require_once './MC/Setting/MajorItem/SupplierGroup.php';
 require_once './MC/Setting/MajorItem/Cap.php';
 require_once './MC/Setting/Trait/TraitClass.php';
 
-class MajorItemFactory
+class MajorItemFactory extends TraitClass
 {
-	use TraitClass;
 
 	public function __construct() {
 

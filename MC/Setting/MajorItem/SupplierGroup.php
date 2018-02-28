@@ -45,7 +45,8 @@ class SupplierGroup implements MajorItemInterface
 
 	public function existData($data) {
 
-		$resultData = $this->dataQueryObj->getData($this->table, 'name', $data['name']);
+		$fieldData = array('corporation_id' => $data['corporation_id'], 'name' => $data['name']);
+		$resultData = $this->dataQueryObj->getDataWithMulConditions($this->table, $fieldData);
 		return $resultData;
 	}
 }

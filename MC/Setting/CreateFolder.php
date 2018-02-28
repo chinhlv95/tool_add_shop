@@ -2,6 +2,7 @@
 
 require_once './PHPExcel/PHPExcel/IOFactory.php';
 require_once './MC/Setting/SettingInterface.php';
+require_once './Log/Log.php';
 
 class CreateFolder implements SettingInterface
 {
@@ -23,10 +24,8 @@ class CreateFolder implements SettingInterface
 	        $val 		= $cell->getValue();
 	        if ($val && ($colorCell == 'FFFFFF' || $colorCell == '000000')) {
 	        	shell_exec($val);
-	        	$log .= date("Y-m-d h:i:s") . '--> Execute command: ' . $val . "\r\n";
+	        	Log::writeCreateFolderLog($val);
 	        }
 	    }
-
-	    file_put_contents('./logs/log-'.date("Y-m-d").'.txt', $log, FILE_APPEND);
 	}
 }

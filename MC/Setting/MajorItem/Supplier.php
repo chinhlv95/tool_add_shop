@@ -37,12 +37,20 @@ class Supplier implements MajorItemInterface
 		$newData['tel'] 		= $oldData['電話番号'];
 		$newData['fax'] 		= '';
 		$newData['email'] 		= $oldData['メールアドレス'];
-		$newData['api_code'] 	= $oldData['API連携コード'];
 		$newData['reservation_auth'] 	= 0;
+		if (!empty($oldData['API連携コード'])) {
+			$newData['api_code'] 	= $oldData['API連携コード'];
+		} else {
+			$newData['api_code'] 	= $oldData['サプライヤコード'];
+		}
 		if (!empty($oldData['サプライヤグループ'])) {
 			$supplierGroupName 				= $oldData['サプライヤグループ'];
 			$supplierGroup 					= $this->dataQueryObj->getData('supplier_group', 'name', $supplierGroupName);
-			$newData['supplier_group_id'] 	= $supplierGroup->id;
+			if ($supplierGroup) {
+				$newData['supplier_group_id'] 	= $supplierGroup->id;
+			} else {
+				$newData['supplier_group_id'] 	= 0;
+			}
 		} else {
 			$newData['supplier_group_id'] 	= 0;
 		}

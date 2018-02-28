@@ -44,7 +44,7 @@ class PDOData
 			$stmt->execute();
 			$response = $stmt->fetch(PDO::FETCH_OBJ);
         } catch (PDOException $ex) {	
-        	echo $ex->getMessage(); 
+        	echo $ex->getMessage();
         }
         return $response;
 	}

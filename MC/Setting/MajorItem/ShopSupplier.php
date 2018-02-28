@@ -40,14 +40,16 @@ class ShopSupplier implements MajorItemInterface
 		$newData['supplier_id'] = $supplier->id;
 		$corporation 			= $this->dataQueryObj->getData('corporation', 'name', $corporationName);
 		$site 					= $this->dataQueryObj->getData('site', 'name', $siteName);
-		$shop 					= $this->dataQueryObj->getDataWithMulConditions('shop', 'corporation_id', $corporation->id, 'site_id', $site->id);
+		$fieldData 				= array('corporation_id' => $corporation->id, 'site_id' => $site->id);
+		$shop 					= $this->dataQueryObj->getDataWithMulConditions('shop', $fieldData);
 		$newData['shop_id'] 	= $shop->id;
 		TraitClass::addTimestamps($newData);
 	}
 
 	public function existData($data) {
 
-		$resultData = $this->dataQueryObj->getDataWithMulConditions($this->table, 'supplier_id', $data['supplier_id'], 'shop_id', $data['shop_id']);
+		$fieldData = array('supplier_id' => $data['supplier_id'], 'shop_id' => $data['shop_id']);
+		$resultData = $this->dataQueryObj->getDataWithMulConditions($this->table, $fieldData);
 		return $resultData;
 	}
 }

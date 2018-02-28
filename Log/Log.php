@@ -2,6 +2,25 @@
 
 class Log
 {
+
+	public static function appendToLogFile($filepath, $message) {
+
+		// Append to the log file
+	  	$fp = @fopen($filepath, "a");
+	    flock($fp, LOCK_EX);
+		fwrite($fp, $message);
+		flock($fp, LOCK_UN);
+		fclose($fp);
+	}
+
+	public static function writeCreateFolderLog($commandLine) {
+
+		$filepath = './logs/log-'.date("Y-m-d").'.txt';
+		$message = '[' . date("Y-m-d h:i:s") . '] --> Execute command: ' . $commandLine . "\r\n";
+		self::appendToLogFile($filepath, $message);
+		return true;
+	}
+
 	public static function writeMajorLog($majorName) {
 
 	  	// Get time of request
@@ -23,13 +42,7 @@ class Log
 
 	 	$message .= '[' . $datetime . '] --> ['. $majorName . ']' ."\n";
 
-	  	// Append to the log file
-	  	$fp = @fopen($filepath, "a");
-	    flock($fp, LOCK_EX);
-		fwrite($fp, $message);
-		flock($fp, LOCK_UN);
-		fclose($fp);
-
+	  	self::appendToLogFile($filepath, $message);
 		return true;
 	}
 
@@ -55,13 +68,7 @@ class Log
 
 	 	$message .= '------------------------> '. $function . ' ' . $data . "\n";
 
-	  	// Append to the log file
-	  	$fp = @fopen($filepath, "a");
-	    flock($fp, LOCK_EX);
-		fwrite($fp, $message);
-		flock($fp, LOCK_UN);
-		fclose($fp);
-
+	  	self::appendToLogFile($filepath, $message);
 		return true;
 	}
 }

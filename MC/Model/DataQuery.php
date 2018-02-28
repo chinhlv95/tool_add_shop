@@ -39,9 +39,10 @@ class DataQuery extends PDOData
 		return $result;
 	}
 
-	public function getDataWithMulConditions($table, $fieldName1, $value1, $fieldName2, $value2) {
+	public function getDataWithMulConditions($table, $data) {
 
-		$result = $this->dbPDO->selectData('SELECT * FROM `' . $table . '` WHERE `' . $fieldName1 . '` = "' . $value1 . '" AND `' . $fieldName2 . '` = "' .$value2 . '" LIMIT 1');
+		$compareStr = $this->prepareGetData($data);
+		$result 	= $this->dbPDO->selectData('SELECT * FROM `' . $table . '` WHERE ' . $compareStr . ' LIMIT 1');
 		return $result;
 	}
 
@@ -61,6 +62,16 @@ class DataQuery extends PDOData
 		Log::writeQueryLog( __FUNCTION__, $data);
 		$data = $this->prepareUpdateData($data);
 		$this->dbPDO->executeData('UPDATE `' . $table . '` SET ' . $data . ' WHERE id = ' . $id);
+	}
+
+	public function prepareGetData($data) {
+
+		$result 	= '';
+		foreach ($data as $k => $v) {
+			$result 	.= '`' . $k . '`=\'' . $v . '\' AND ';
+		}
+		$result 	= substr($result, 0, -5);
+		return $result;
 	}
 
 	public function prepareAddData($data) {

@@ -37,9 +37,15 @@ class Cap implements MajorItemInterface
 	public function formatData($oldData, &$newData) {
 
 		$supplierGroupName 				= $oldData['サプライヤグループ'];
+		$corporationName 				= $this->dataQueryObj->getCorporation();
 		$supplierGroup					= $this->dataQueryObj->getData('supplier_group', 'name', $supplierGroupName);
-		$newData['supplier_group_id'] 	= $supplierGroup->id;
-		$newData['corporation_id'] 		= $supplierGroup->corporation_id;
+		if ($supplierGroup) {
+			$newData['supplier_group_id'] 	= $supplierGroup->id;
+		} else {
+			$newData['supplier_group_id'] 	= 0;
+		}
+		$corporation					= $this->dataQueryObj->getData('corporation', 'code', $corporationName);
+		$newData['corporation_id'] 		= $corporation->id;
 		$newData['name'] 				= $oldData['CAP条件名'];
 		$newData['quantity'] 			= $oldData['実店舗用数量'];
 		$newData['type'] 				= $this->getCapType($oldData['タイプ']);
@@ -47,8 +53,8 @@ class Cap implements MajorItemInterface
 	}
 
 	public function existData($data) {
-
-		$resultData = $this->dataQueryObj->getData($this->table, 'supplier_group_id', $data['supplier_group_id']);
+		$fieldData = array('supplier_group_id' => $data['supplier_group_id'], 'corporation_id' => $data['corporation_id']);
+		$resultData = $this->dataQueryObj->getDataWithMulConditions($this->table, $fieldData);
 		return $resultData;
 	}
 

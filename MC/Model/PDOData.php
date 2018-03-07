@@ -9,8 +9,8 @@ class PDOData
 	static private $instance = null;
 	private $db = null;
 
-	private function __construct($corporation) {
-
+	private function __construct($corporation)
+	{
 		try {
 			$servelName 	= "localhost";
 			$databaseName 	= "stockcontrol_" . $corporation;
@@ -23,21 +23,21 @@ class PDOData
 		}
 	}
 
-	static function getInstance($corporation) {
-
+	static function getInstance($corporation)
+	{
 		if (self::$instance == null) {
 			self::$instance = new PDOData($corporation);
 		}
 		return self::$instance;
 	}
 
-	public function setConnectionNames() {
-
+	public function setConnectionNames()
+	{
 		$this->db->exec("SET names utf8");
 	}
 
-	public function selectData($query) {
-
+	public function selectData($query)
+	{
 		$response = array();
 		try {
 			$stmt = $this->db->prepare($query); 
@@ -49,8 +49,8 @@ class PDOData
         return $response;
 	}
 
-	public function executeData($exec) {
-
+	public function executeData($exec)
+	{
 		try {
 			$this->db->exec($exec);
 			return $this->db->lastInsertId();

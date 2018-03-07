@@ -10,14 +10,14 @@ class DivideKind implements MajorItemInterface
 	private $dataQueryObj;
 	private $table;
 
-	function __construct() {
-
+	function __construct()
+	{
 		$this->dataQueryObj = DataQuery::getDataQueryObj();
 		$this->table 		= 'divide_kind_group';
 	}
 
-	public function addItem($data) {
-
+	public function addItem($data)
+	{
 		try {
 			$newData 	= array();
 			$data 		= TraitClass::trimData($data);
@@ -49,8 +49,8 @@ class DivideKind implements MajorItemInterface
 	    }
 	}
 
-	public function formatData($oldData, &$newData) {
-
+	public function formatData($oldData, &$newData)
+	{
 		$corporationName 	= $this->dataQueryObj->getCorporation();
 		$supplierGroupName 	= $oldData['サプライヤグループ'];
 		$supplierGroup		= $this->dataQueryObj->getData('supplier_group', 'name', $supplierGroupName);
@@ -69,6 +69,7 @@ class DivideKind implements MajorItemInterface
 			$newData['divide_kind_group']['reference'] 		= '';
 		}
 		TraitClass::addTimestampsWithCorporation($newData['divide_kind_group'], $corporationName);
+
 		$newData['divide_kind_detail']['api']['name'] 		= $oldData['振り分けグループ名'];
 		$newData['divide_kind_detail']['api']['kind'] 		= 2;
 		$newData['divide_kind_detail']['api']['rate'] 		= $oldData['API振分'] * 100;
@@ -81,15 +82,15 @@ class DivideKind implements MajorItemInterface
 
 	}
 
-	public function existData($data) {
-
+	public function existData($data)
+	{
 		$fieldData = array('corporation_id' => $data['corporation_id'], 'type' => $data['type'], 'reference' => $data['reference'], 'supplier_group_id' => $data['supplier_group_id']);
 		$resultData = $this->dataQueryObj->getDataWithMulConditions($this->table, $fieldData);
 		return $resultData;
 	}
 
-	public function getDeivdeType($type) {
-
+	public function getDeivdeType($type)
+	{
 		switch ($type) {
             case '商品CS':
 		    	return 1;

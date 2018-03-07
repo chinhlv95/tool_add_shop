@@ -6,12 +6,13 @@ require_once './Log/Log.php';
 
 class CreateFolder implements SettingInterface
 {
-	public function __construct() {
+	public function __construct()
+	{
 
 	}
 
-	public function executeSetting($corporation = null, $worksheet) {
-
+	public function executeSetting($corporation = null, $worksheet)
+	{
 		$lowestRow 			= 4;
 		$configCol 			= "G";
 		$highestRow         = $worksheet->getHighestRow(); // e.g. 10

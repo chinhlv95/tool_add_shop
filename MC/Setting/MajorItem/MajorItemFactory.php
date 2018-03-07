@@ -13,8 +13,8 @@ require_once './MC/Setting/MajorItem/DivideKind.php';
 class MajorItemFactory
 {
 
-	public function __construct() {
-
+	public function __construct()
+	{
 		$this->site 			= new Site();
 		$this->shop 			= new Shop();
 		$this->supplier 		= new Supplier();
@@ -26,8 +26,8 @@ class MajorItemFactory
 		$this->divideKind 		= new DivideKind();
 	}
 
-	public function getMajorItemType($type) {
-
+	public function getMajorItemType($type)
+	{
 		$type = trim($type,'	 ');
 
 		switch ($type) {

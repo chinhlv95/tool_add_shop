@@ -9,53 +9,53 @@ class DataQuery extends PDOData
 	private $dbPDO 				= null;
 	private $corporation 		= null;
 
-	private function __construct($corporation) {
-
+	private function __construct($corporation)
+	{
 		$this->dbPDO 		= PDOData::getInstance($corporation);
 		$this->corporation 	= $corporation;
 	}
 
-	static function getDataQueryObj() {
-
+	static function getDataQueryObj()
+	{
 		return self::$instance;
 	}
 
-	static function getInstance($corporation) {
-
+	static function getInstance($corporation)
+	{
 		if (self::$instance == null) {
 			self::$instance = new DataQuery($corporation);
 		}
 		return self::$instance;
 	}
 
-	public function getCorporation() {
-
+	public function getCorporation()
+	{
 		return $this->corporation;
 	}
 
-	public function getData($table, $fieldName, $value) {
-
+	public function getData($table, $fieldName, $value)
+	{
 		$result = $this->dbPDO->selectData('SELECT * FROM `' . $table . '` WHERE `' . $fieldName . '` = "' .$value . '" LIMIT 1');
 		return $result;
 	}
 
-	public function getDataWithMulConditions($table, $data) {
-
+	public function getDataWithMulConditions($table, $data)
+	{
 		$compareStr = $this->prepareGetData($data);
 		$result 	= $this->dbPDO->selectData('SELECT * FROM `' . $table . '` WHERE ' . $compareStr . ' LIMIT 1');
 		return $result;
 	}
 
-	public function addData($table, $data) {
-
+	public function addData($table, $data)
+	{
 		Log::writeQueryLog( __FUNCTION__, $data);
 		$data 	= $this->prepareAddData($data);
 		$dataId = $this->dbPDO->executeData('INSERT INTO `' . $table . '`' . $data['key'] . ' VALUES ' . $data['value']);
 		return $dataId;
 	}
 
-	public function updateData($table, $id, $data) {
-
+	public function updateData($table, $id, $data)
+	{
 		if (!empty($data['created_at'])) {
 			unset($data['created_at']);
 		}
@@ -64,8 +64,8 @@ class DataQuery extends PDOData
 		$this->dbPDO->executeData('UPDATE `' . $table . '` SET ' . $data . ' WHERE id = ' . $id);
 	}
 
-	public function prepareGetData($data) {
-
+	public function prepareGetData($data)
+	{
 		$result 	= '';
 		foreach ($data as $k => $v) {
 			$result 	.= '`' . $k . '`=\'' . $v . '\' AND ';
@@ -74,8 +74,8 @@ class DataQuery extends PDOData
 		return $result;
 	}
 
-	public function prepareAddData($data) {
-
+	public function prepareAddData($data)
+	{
 		$key 	= '(';
 		$value 	= '(';
 		foreach ($data as $k => $v) {
@@ -87,8 +87,8 @@ class DataQuery extends PDOData
 		return array('key' => $key, 'value' => $value);
 	}
 
-	public function prepareUpdateData($data) {
-
+	public function prepareUpdateData($data)
+	{
 		$result = '';
 		foreach ($data as $k => $v) {
 			$result	.= '`' . $k . '` = \'' . $v . '\', ';

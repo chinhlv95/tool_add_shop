@@ -10,14 +10,14 @@ class Shop implements MajorItemInterface
 	private $dataQueryObj;
 	private $table;
 
-	function __construct() {
-
+	function __construct()
+	{
 		$this->dataQueryObj = DataQuery::getDataQueryObj();
 		$this->table 		= 'shop';
 	}
 
-	public function addItem($data) {
-
+	public function addItem($data)
+	{
 		try {
 			$newData 	= array();
 			$data 		= TraitClass::trimData($data);
@@ -34,8 +34,8 @@ class Shop implements MajorItemInterface
 	    }
 	}
 
-	public function formatData($oldData, &$newData) {
-
+	public function formatData($oldData, &$newData)
+	{
 		$corporationName 		= $oldData['法人名'];
 		$siteName 				= $oldData['サイト名'];
 		$type 					= $oldData['種別'];
@@ -63,8 +63,8 @@ class Shop implements MajorItemInterface
 		TraitClass::addTimestamps($newData);
 	}
 
-	public function existData($data) {
-
+	public function existData($data)
+	{
 		$resultData = $this->dataQueryObj->getData($this->table, 'code', $data['code']);
 		return $resultData;
 	}

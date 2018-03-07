@@ -6,8 +6,8 @@ require_once './MC/Setting/SettingSite.php';
 class SettingFactory
 {
 
-	public function getSettingType($type) {
-
+	public function getSettingType($type)
+	{
 		$type = trim($type,'	 ');
 
 		switch ($type) {

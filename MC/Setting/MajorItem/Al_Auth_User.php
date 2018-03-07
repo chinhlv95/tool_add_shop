@@ -11,16 +11,16 @@ class Al_Auth_User implements MajorItemInterface
 	private $dataQueryObj;
 	private $table;
 
-	function __construct() {
-
+	function __construct()
+	{
 		$this->dataQueryObj = DataQuery::getDataQueryObj();
 		$this->table 		= 'al_auth_user';
 		$this->passWord 	= 'password';
 		$this->phpass 		= new PasswordHash(12, true);
 	}
 
-	public function addItem($data) {
-
+	public function addItem($data)
+	{
 		$newData 		= array();
 		$data 			= TraitClass::trimData($data);
 		$this->formatData($data, $newData);
@@ -44,8 +44,8 @@ class Al_Auth_User implements MajorItemInterface
 		}
 	}
 
-	public function formatData($oldData, &$newData) {
-
+	public function formatData($oldData, &$newData)
+	{
 		$newData['al_auth_user']['user_id'] 	= $oldData['ユーザID'];
 		$newData['al_auth_user']['password'] 	= $this->phpass->HashPassword($this->passWord);
 		TraitClass::addTimestamps($newData['al_auth_user']);
@@ -67,14 +67,14 @@ class Al_Auth_User implements MajorItemInterface
 		TraitClass::addTimestamps($newData['user_profile']);
 	}
 
-	public function existData($data) {
-
+	public function existData($data)
+	{
 		$resultData = $this->dataQueryObj->getData('al_auth_user', 'user_id', $data['user_id']);
 		return $resultData;
 	}
 
-	public function getPermission($permissionName) {
-
+	public function getPermission($permissionName)
+	{
 		switch ($permissionName) {
             case 'admin':
 		    	return 1;

@@ -10,14 +10,14 @@ class Site implements MajorItemInterface
 	private $dataQueryObj;
 	private $table;
 
-	function __construct() {
-
+	function __construct()
+	{
 		$this->dataQueryObj = DataQuery::getDataQueryObj();
 		$this->table 		= 'site';
 	}
 
-	public function addItem($data) {
-
+	public function addItem($data)
+	{
 		$newData 	= array();
 		$data 		= TraitClass::trimData($data);
 		$this->formatData($data, $newData);
@@ -29,16 +29,16 @@ class Site implements MajorItemInterface
 		}
 	}
 
-	public function formatData($oldData, &$newData) {
-
+	public function formatData($oldData, &$newData)
+	{
 		$newData['code'] 		= $oldData['サイトコード'];
 		$newData['name'] 		= $oldData['サイト名'];
 		$newData['name_kana'] 	= $oldData['サイト名カナ'];
 		TraitClass::addTimestamps($newData);
 	}
 
-	public function existData($data) {
-
+	public function existData($data)
+	{
 		$resultData = $this->dataQueryObj->getData($this->table, 'code', $data['code']);
 		return $resultData;
 	}

@@ -9,8 +9,8 @@ require_once './Log/Log.php';
 class SettingSite implements SettingInterface
 {
 
-	public function executeSetting($corporation, $worksheet) {
-
+	public function executeSetting($corporation, $worksheet)
+	{
 		$dataQueryObj 	= DataQuery::getInstance($corporation);
 		$majorItemObj 	= new MajorItemFactory();
 

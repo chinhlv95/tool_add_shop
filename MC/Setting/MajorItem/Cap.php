@@ -10,14 +10,14 @@ class Cap implements MajorItemInterface
 	private $dataQueryObj;
 	private $table;
 
-	function __construct() {
-
+	function __construct()
+	{
 		$this->dataQueryObj = DataQuery::getDataQueryObj();
 		$this->table 		= 'cap';
 	}
 
-	public function addItem($data) {
-
+	public function addItem($data)
+	{
 		try {
 			$newData 	= array();
 			$data 		= TraitClass::trimData($data);
@@ -34,8 +34,8 @@ class Cap implements MajorItemInterface
 	    }
 	}
 
-	public function formatData($oldData, &$newData) {
-
+	public function formatData($oldData, &$newData)
+	{
 		$supplierGroupName 				= $oldData['サプライヤグループ'];
 		$corporationName 				= $this->dataQueryObj->getCorporation();
 		$supplierGroup					= $this->dataQueryObj->getData('supplier_group', 'name', $supplierGroupName);
@@ -52,14 +52,15 @@ class Cap implements MajorItemInterface
 		TraitClass::addTimestampsWithCorporation($newData, $this->dataQueryObj->getCorporation());
 	}
 
-	public function existData($data) {
+	public function existData($data)
+	{
 		$fieldData = array('supplier_group_id' => $data['supplier_group_id'], 'corporation_id' => $data['corporation_id']);
 		$resultData = $this->dataQueryObj->getDataWithMulConditions($this->table, $fieldData);
 		return $resultData;
 	}
 
-	public function getCapType($type) {
-
+	public function getCapType($type)
+	{
 		switch ($type) {
             case '商品CS':
 		    	return 1;

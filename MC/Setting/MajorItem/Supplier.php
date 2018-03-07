@@ -10,14 +10,14 @@ class Supplier implements MajorItemInterface
 	private $dataQueryObj;
 	private $table;
 
-	public function __construct() {
-
+	public function __construct()
+	{
 		$this->dataQueryObj = DataQuery::getDataQueryObj();
 		$this->table 		= 'supplier';
 	}
 
-	public function addItem($data) {
-
+	public function addItem($data)
+	{
 		$newData 	= array();
 		$data 		= TraitClass::trimData($data);
 		$this->formatData($data, $newData);
@@ -29,8 +29,8 @@ class Supplier implements MajorItemInterface
 		}
 	}
 
-	public function formatData($oldData, &$newData) {
-
+	public function formatData($oldData, &$newData)
+	{
 		$newData['code'] 		= $oldData['サプライヤコード'];
 		$newData['name'] 		= $oldData['サプライヤ名'];
 		$newData['name_kana'] 	= $oldData['サプライヤ名カナ'];
@@ -57,8 +57,8 @@ class Supplier implements MajorItemInterface
 		TraitClass::addTimestamps($newData);
 	}
 
-	public function existData($data) {
-
+	public function existData($data)
+	{
 		$resultData = $this->dataQueryObj->getData($this->table, 'code', $data['code']);
 		return $resultData;
 	}

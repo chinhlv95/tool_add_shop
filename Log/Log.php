@@ -3,8 +3,8 @@
 class Log
 {
 
-	public static function appendToLogFile($filepath, $message) {
-
+	public static function appendToLogFile($filepath, $message)
+	{
 		// Append to the log file
 	  	$fp = @fopen($filepath, "a");
 	    flock($fp, LOCK_EX);
@@ -13,16 +13,16 @@ class Log
 		fclose($fp);
 	}
 
-	public static function writeCreateFolderLog($commandLine) {
-
+	public static function writeCreateFolderLog($commandLine)
+	{
 		$filepath = './logs/log-'.date("Y-m-d").'.txt';
 		$message = '[' . date("Y-m-d h:i:s") . '] --> Execute command: ' . $commandLine . "\r\n";
 		self::appendToLogFile($filepath, $message);
 		return true;
 	}
 
-	public static function writeMajorLog($majorName) {
-
+	public static function writeMajorLog($majorName)
+	{
 	  	// Get time of request
 	  	if( ($time = $_SERVER['REQUEST_TIME']) == '') {
 	    	$time = time();
@@ -46,8 +46,8 @@ class Log
 		return true;
 	}
 
-	public static function writeQueryLog($function, $data) {
-
+	public static function writeQueryLog($function, $data)
+	{
 		$data = json_encode($data, JSON_UNESCAPED_UNICODE);
 	  	// Get time of request
 	  	if( ($time = $_SERVER['REQUEST_TIME']) == '') {

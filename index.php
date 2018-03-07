@@ -14,7 +14,5 @@
 			    <input type="submit" value="UPLOAD">
 		    </form>
 	</div>
-	<script src="public/js/jquery-3.2.1.min.js"></script>
-	<script src="public/js/scripts.js"></script>
 </body>
 </html>
